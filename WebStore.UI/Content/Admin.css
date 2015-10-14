@@ -1,0 +1,82 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    color: #666;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 13px;
+    line-height: 1.4em;
+    background-color: #f7f7f7;
+    background-repeat: repeat-x;
+    background-position: top;
+}
+
+#logo {
+    padding: 15px 0;
+}
+
+    #logo h1 a {
+        display: block;
+        padding: 35px 0 0 85px;
+        font-size: 14px;
+        color: #999;
+        text-align: left;
+        background: url(images/logo.png) no-repeat top left;
+    }
+
+.navbar-header {
+    padding: 35px 0;
+}
+
+table td {
+    vertical-align: middle !important;
+}
+
+#fu-my-simple-upload {
+    margin: 15px 0;
+}
+
+.breadcrumb {
+    border: 1px solid #428bca;
+}
+
+.categoryAdd {
+    padding: 8px;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    font-weight:bold;
+    color:#666;
+}
+.catSave {
+   margin-top:15px;
+}
+.myTableFormat th {
+    background-color:#2d6ca2;
+    color:#fff;
+}
+.navbar-nav li a:hover{
+    background:#2d6ca2;
+    border-radius:3px;
+    color:#fff;
+}
+li.dropdown.open a.dropdown-toggle {
+    background:#2d6ca2;
+    border-radius:3px;
+    color:#fff;
+}
+.field-validation-error {
+    color:#f00;
+}
+.category {
+    color: #000;
+    padding-left: 15px;
+}
+table tr:hover {
+    color:#fff;
+    background:#2d6ca2;
+}
+.imageMini {
+    width:75px;
+    height:75px;
+    margin:0 auto; 
+}

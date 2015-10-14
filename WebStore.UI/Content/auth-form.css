@@ -1,0 +1,51 @@
+﻿body {
+}
+
+#auth-form {
+    border: 1px solid #000;
+    width: 430px;
+    margin: 175px auto;
+    padding: 10px 24px 24px 24px;
+    background: #428bca;
+    border-radius: 5px;
+}
+
+#logo {
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 24px;
+    color: #FFF;
+    padding-bottom: 15px;
+}
+
+.form-body {
+    border-top: 1px solid #0026ff;
+    border-bottom: 1px solid #0026ff;
+}
+
+.form-group {
+    padding-top: 10px;
+}
+
+.form-footer button {
+    float: right;
+    margin-top: 10px;
+}
+
+.validation-summary-errors li {
+    list-style: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+.input-validation-error {
+    width: 100%;
+}
+
+.field-validation-error {
+    color: #fff;
+    float: right;
+}
+
+.form-input input{
+    width: 100%;
+}

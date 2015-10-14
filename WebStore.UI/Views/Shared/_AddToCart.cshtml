@@ -1,0 +1,16 @@
+﻿@model WebStore.Models.Entities.Products
+@if (HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    using (Html.BeginForm("AddToCart", "Cart"))
+    {
+    @Html.HiddenFor(x=>Model.ProductID)
+    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+    @Html.Bootstrap().SubmitButton().Text("<span class=\"glyphicon glyphicon-shopping-cart\"></span> Купити")
+    }
+}
+else
+{
+    <a class="btn btn-default" data-ajax="true" data-ajax-mode="replace" data-ajax-success="success" data-ajax-update="#loginContainer" href="@Url.Action("Login", "Account", new { returnUrl = Request.Url.PathAndQuery })"><span class="glyphicon glyphicon-shopping-cart"></span>Купити</a>
+
+}
+

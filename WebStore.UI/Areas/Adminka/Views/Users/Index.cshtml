@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebStore.Models.Entities.Users>
+
+@{
+    ViewBag.Title = "Користувачі";
+}
+<div class="col-md-6">
+    @using (Html.Bootstrap().Begin(new Table()))
+    {     
+        <tr>
+            <th>Користувач</th>
+            <th>Пароль</th>
+            <th>Роль</th>
+            <th>Ред.</th>
+            <th>Видалити</th>
+        </tr> 
+        foreach (var user in Model)
+        {
+        <tr>
+            <td>@Html.DisplayFor(m => user.Username) </td>
+            <td>@Html.DisplayFor(m => user.Password) </td>
+            <td>@user.UsersRole.Name</td>
+            <td>@Ajax.ActionLink("Ред.", "Update", new { id = user.UserID }, new AjaxOptions { HttpMethod = "GET", OnSuccess = "sussesUpdate" }, null)</td>
+            <td>
+                @using (Ajax.BeginForm("Delete", "Users", null, new AjaxOptions { HttpMethod = "POST", Confirm = "Справді видалити цього користувача?", OnSuccess = "sussesDelete" }))
+                {
+                    @Html.Hidden("UserID", user.UserID)
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                }
+            </td>
+        </tr>
+        }
+    }
+</div>
+<div class="col-md-6">
+    <p class="categoryAdd">Редагувати</p>
+    @{Html.RenderAction("UpdateForm", "Users");}
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function sussesUpdate(data) {
+            $("#UserIdMe").val(data.UserID);
+            $("#Username").val(data.Username);
+            $("#Password").val(data.Password);
+            $('#Role option').each(function () {
+                if (this.value == data.Role) {
+                    $(this).attr("selected", "selected");
+                    return false;
+                }
+            });
+            $("fieldset").prop("disabled", false);
+        }
+        function sussesDelete() {
+            window.location.href = window.location.href;
+        }
+    </script>
+}

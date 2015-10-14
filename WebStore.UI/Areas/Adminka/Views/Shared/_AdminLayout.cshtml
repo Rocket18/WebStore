@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/bootstrapcss")
+    @Styles.Render("~/Content/Admin")
+    @RenderSection("styles", false)
+</head>
+<body>
+    <div class="container">
+        <!--Header-->
+        <header class="row">
+            <div id="logo" class="col-md-3">
+                <h1>@Html.RouteLink("Адмін-частина", new { controller = "product", action = "index" }, null)</h1>
+            </div>
+            <div class="col-md-9">
+                <div class="navbar-header navbar-right">
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle " data-toggle="dropdown">Продукти <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("Index", "Product")">Переглянути</a></li>
+                                    <li>@Html.ActionLink("Додати", "Create", "Product")</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Category")">Категорії </a>
+                            </li>
+                            <li><a href="@Url.Action("Index", "Users")">Користувачі</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Адміністратор <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    @using (Html.BeginForm("LogOut", "Account", new { area = "" }, FormMethod.Post))
+                                    {
+                                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                                        <li>
+                                            <button type="submit" class=" btn-link exit">Вихід</button></li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+           </div>
+        </header>
+        <!--EndHeader -->
+        <div class="row">
+            @Html.MvcSiteMap().SiteMapPath()
+            @RenderSection("Menu", false)
+            @RenderBody()
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrapjs")
+    @RenderSection("scripts", false)
+</body>
+</html>

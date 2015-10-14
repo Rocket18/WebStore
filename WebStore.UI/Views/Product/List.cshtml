@@ -1,0 +1,18 @@
+﻿@model  WebStore.UI.Models.ProductsListViewModel
+
+@{
+    ViewBag.Title = "Список товарів";
+}
+<div class="row">
+    @foreach (var p in Model.Products)
+    {
+        Html.RenderPartial("ProductSummary", p);
+    }
+</div>
+<div class="row">
+    @Html.PageLinks(Model.PaginInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory }))
+</div>
+
+
+
+

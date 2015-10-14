@@ -1,0 +1,25 @@
+﻿@model WebStore.Models.Entities.Categories
+<tr>
+    <td>
+        <div class="row">
+            @using (Html.BeginForm("Update", "Category"))
+            {
+                <div class="col-md-8">
+                    @Html.HiddenFor(m => m.CategoryID, new { id = "" })
+                    @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control").Id("")
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Ред.</button>
+                </div>
+            }
+        </div>
+    </td>
+    <td>
+        @using (Ajax.BeginForm("Delete", "Category", null, new AjaxOptions { HttpMethod = "POST", Confirm = "Ви справді хочете видалити дану категорію?", OnSuccess = "sussesDelete" }))
+        {
+            @Html.Hidden("CategoryID", Model.CategoryID, new { id = "" })
+            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>     
+        }
+    </td>
+</tr>

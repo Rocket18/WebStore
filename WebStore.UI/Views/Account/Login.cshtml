@@ -1,0 +1,54 @@
+﻿@model WebStore.Models.Entities.Users
+@{Layout = "";}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Вхід в магазин</title>
+    @Styles.Render("~/Content/bootstrapcss")
+    @Styles.Render("~/Content/auth-form.css")
+</head>
+<body>
+    <div class="container">
+        <div id="auth-form">
+            <div class="form-header">
+                <div id="logo">WebStore <small>(Авторизація)</small></div>
+            </div>
+            @using (Html.BeginForm(null, null, new { ReturnUrl = ViewBag.ReturnUrl }))
+            {            
+                <div class="form-body">
+                    <div class="form-group">
+                        @Html.Bootstrap().LabelFor(model => model.Username)
+                        <div class="form-input">
+                            @Html.Bootstrap().TextBoxFor(model => model.Username)
+                            @Html.ValidationMessageFor(model => model.Username)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Bootstrap().LabelFor(model => model.Password)
+                        <div class="form-input">
+                            @Html.Bootstrap().PasswordFor(model => model.Password)
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember-me" value="1">
+                            Запам'ятати мене
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        @Html.ValidationSummary(true)
+                    </div>
+                    @Html.Hidden("returnUrl")
+                </div>   
+                <div class="form-footer">
+                    <button class="btn  btn-primary" type="submit">Увійти</button>
+                    <div class="clearfix"></div>
+                </div>           
+            }
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+</body>
+</html>

@@ -1,0 +1,73 @@
+﻿@model WebStore.Models.Entities.Products
+@{
+    ViewBag.Title = "Продукт|Переглянути";
+}
+<p>
+    <p><a href="@Url.Action("Index")"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;На головну</a></p>
+</p>
+<div class="col-md-4">
+    @Html.Image("/Content" + Model.Image, Model.Name, new { @class = "img-thumbnail " })
+</div>
+<div class="col-md-8">
+    @using (Html.Bootstrap().Begin(new Table()))
+    {
+        <tr>
+            <td>@Html.LabelFor(model => model.ProductID)</td>
+            <td>@Html.DisplayFor(model => model.ProductID)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Name)</td>
+            <td>@Html.DisplayFor(model => model.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Image)</td>
+            <td>@Html.DisplayFor(model => model.Image)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Price)</td>
+            <td>@Model.Price.ToString("c")</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Code)</td>
+            <td>@Html.DisplayFor(model => model.Code)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Company)</td>
+            <td>@Html.DisplayFor(model => model.Company)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Avilability)</td>
+            <td>@Html.DisplayFor(model => model.Status.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Categories)</td>
+
+            <td>
+                @foreach (var cat in Model.Categories)
+                { 
+                    @:|  @cat.Name |
+                }
+            </td>
+        </tr>   
+    }
+    <a href="@Url.Action("Edit", new { id = Model.ProductID })" class="btn btn-primary pull-left" style="margin-right:15px;" role="button" title="Редагувати"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Редагувати продукт</a>
+    @using (Ajax.BeginForm("Delete", "Product", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnSuccess = "sussesDelete",
+                    Confirm = "Ви справді хочете видалити продукт?"
+                }, null))
+    {
+        @Html.Hidden("ProductID", Model.ProductID)
+        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Видалити продукт</button>
+    }
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function sussesDelete() {
+            window.location.href = "/Adminka/Product";
+        }
+    </script>
+}

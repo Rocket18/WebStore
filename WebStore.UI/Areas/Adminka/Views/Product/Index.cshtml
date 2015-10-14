@@ -1,0 +1,75 @@
+﻿@model WebStore.UI.Models.ProductsListViewModel
+
+@{
+    ViewBag.Title = "Продукти";
+}
+@section Menu
+{
+    <div class="col-md-2">
+        @{Html.RenderAction("AdminMenu", "Nav", new { area = "" });}
+    </div>
+}
+<div class="col-md-10">
+    <p>
+        @Html.ActionLink("Додати продукт", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+    @using (Html.Bootstrap().Begin(new Table()))
+    {
+        <tr>
+            <th>Зображення</th>
+            <th>Назва </th>
+            <th>Ціна</th>
+            <th>Код</th>
+            <th>Виробник</th>
+            <th></th>
+        </tr>
+        foreach (var item in Model.Products)
+        {
+        <tr>
+            <td>
+                <div class="imageMini">
+                    @Html.Image("/Content" + item.Image, item.Name, new { height = "75px" })
+                </div>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = item.ProductID })" class="btn btn-default " role="button" title="Редагувати"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href="@Url.Action("Details", new { id = item.ProductID })" class="btn btn-default" role="button" title="Переглянути"><span class="glyphicon glyphicon-eye-open"></span></a>
+                @using (Ajax.BeginForm("Delete", "Product", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    Confirm = "Ви справді хочете видалити продукт?",
+                    OnSuccess = "susses"
+                }, new { style = "float:left;" }))
+                {
+                    @Html.Hidden("ProductID", item.ProductID)
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                }
+            </td>
+        </tr>
+        }
+    }
+    <div class="row">
+        @Html.PageLinks(Model.PaginInfo, x => Url.Action("Index", new { page = x, category = Model.CurrentCategory }))
+    </div>
+</div>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function susses() {
+            window.location.href = "/Adminka/Product";
+        }
+    </script>
+}

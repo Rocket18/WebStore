@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/bootstrapcss")
+    @Styles.Render("~/Content/Style")
+</head>
+<body>
+    <div id="header-top">
+        <div class="container">
+            <div class="col-md-2 cart-container">
+                @{Html.RenderAction("Summary", "Cart");}
+            </div>
+            <div class="userInfo pull-right">
+                @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    var identity = ((WebStore.UI.Infrastructure.Concrete.CustomPrincipal)HttpContext.Current.User).CustomIdentity;
+                    <p class="pull-left">@string.Format("Вітаю, {0}", identity.Username)</p>
+                    <div class="pull-right logout">
+                        @using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
+                        {
+                            <button type="submit" class=" btn-link exit">Вихід</button>
+                        }
+                    </div>
+                }
+                else
+                {        
+                    @Ajax.ActionLink("Вхід", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { UpdateTargetId = "loginContainer", OnSuccess = "success" }, null)              
+                }
+            </div>
+            <div id="loginContainer"></div>
+        </div>
+    </div>
+    <div class="container">
+        <!--Header-->
+        <header class="row">
+            <div id="logo" class="col-md-3">
+                <h1>@Html.RouteLink("Інтернет магазин", new { controller = "product", action = "list" }, null)</h1>
+            </div>
+        </header>
+        <!--End Header -->
+        <div class="row">
+            <div class="col-md-3">
+                @{Html.RenderAction("Menu", "Nav");}
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+        <div class="footer">
+            <div class="footBody">
+                <p class="text-center">Copyright @DateTime.Now.Year. Всі права захищено</p>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrapjs")
+    @RenderSection("scripts", false)
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        function success() {
+            $("#showLoginForm").modal('show');
+            $.validator.unobtrusive.parse($("#loginContainer"));
+        }
+        function sussesLogin(data) {
+            if (data.error) {
+                $("#errorLoginForm").html(data.name);
+            }
+            else {
+                window.location.href = data.name;
+            }
+        };
+    </script>
+</body>
+</html>

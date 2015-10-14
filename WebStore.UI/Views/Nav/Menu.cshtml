@@ -1,0 +1,15 @@
+﻿@model IEnumerable<WebStore.Models.Entities.Categories>
+@{
+    Layout = null;    
+}
+<h4 class="category"><span class="glyphicon glyphicon-th-list catsicon"></span>Категорія</h4>
+<ul class="nav nav-pills  nav-stacked">
+    <li @{if (ViewBag.SelectedCategory == null)
+          {<text>class = "active"</text> }}><a href="@Url.Action("List", new { Controller = "Product" })">Все</a></li>
+    @foreach (var link in Model)
+    { 
+        <li @{if (link.CategoryID == ViewBag.SelectedCategory)
+              {<text>class = "active"</text> }} >@Html.RouteLink(link.Name, new { Controller = "Product", action = "List", category = link.CategoryID, page = 1 })
+        </li>
+    }
+</ul>

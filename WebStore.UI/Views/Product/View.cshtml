@@ -1,0 +1,49 @@
+﻿@model WebStore.Models.Entities.Products
+
+@{
+    ViewBag.Title = "Перегляд товару";
+}
+<div class="row">
+    <p><a href="javascript:void(0);" onclick="history.go(-1);"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Назад</a></p>
+    <div class="col-md-4">
+        @Html.Image("/Content" + Model.Image, Model.Name, new { @class = "img-thumbnail " })
+    </div>
+    <div class="col-md-8">
+        @using (Html.Bootstrap().Begin(new Table()))
+        {
+            <tr>
+                <td>@Html.LabelFor(model => model.Name)</td>
+                <td>@Html.DisplayFor(model => model.Name)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Price)</td>
+                <td>@Model.Price.ToString("c")</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Code)</td>
+                <td>@Html.DisplayFor(model => model.Code)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Company)</td>
+                <td>@Html.DisplayFor(model => model.Company)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Avilability)</td>
+                <td>@Html.DisplayFor(model => model.Status.Name)</td>
+            </tr>  
+        }
+        @{Html.RenderPartial("_AddToCart", Model);}
+    </div>
+</div>
+<div class="row">
+    @{Html.RenderAction("GetOtherProduct", new { productID = Model.ProductID });}
+</div>
+
+
+
+
+
+
+
+
+

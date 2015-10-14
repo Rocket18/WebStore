@@ -1,0 +1,29 @@
+﻿@model WebStore.Models.Entities.Users
+@using (Html.BeginForm("Update", "Users"))
+{   
+    <fieldset disabled>
+        <div class="form-group ">
+            @Html.HiddenFor(model => model.UserID, new { id = "UserIdMe" })
+            @Html.Bootstrap().LabelFor(model => model.Username).Class("control-label ")
+            <div>
+                @Html.Bootstrap().TextBoxFor(model => model.Username).Class("form-control").Readonly(true)
+                @Html.ValidationMessageFor(model => model.Username)
+            </div>
+        </div>
+        <div class="form-group ">
+            @Html.Bootstrap().LabelFor(model => model.Password).Class("control-label ")
+            <div>
+                @Html.Bootstrap().TextBoxFor(model => model.Password).Class("form-control").Readonly(true)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+        </div>
+        <div class="form-group ">
+            @Html.Bootstrap().LabelFor(model => model.Role).Class("control-label ")
+            <div>
+                @Html.Bootstrap().DropDownListFor(model => model.Role, (IEnumerable<SelectListItem>)ViewBag.Roles).Class("form-control").OptionLabel("--Обрати--")
+                @Html.ValidationMessageFor(model => model.Role)
+            </div>
+        </div>
+        @Html.Bootstrap().SubmitButton().Text("Зберегти").Class("btn-primary")
+    </fieldset>          
+}

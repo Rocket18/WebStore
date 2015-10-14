@@ -1,0 +1,63 @@
+﻿@model IEnumerable<WebStore.Models.Entities.Products>
+@{Layout = null;}
+@if (Model.Count() > 0)
+{  
+    <p class="otherProduct">
+        Інші товари з даної категорії
+    </p>
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        @* <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>*@
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            @foreach (var group in Model.Select((x, index) => new { element = x, index }).GroupBy(x => x.index / 4, x => x.element))
+            {       
+                <div class="item @if (group.Key == 0)
+                                 {<text>active</text>}">
+                    <div class="row item">
+                        @foreach (var item in group)
+                        {
+                            <div class="col-md-3">
+                                <div class="thumbnail">
+                                    <div class="imageSizeMini">
+                                        <div class="imagemiddlemini">
+                                            <a href="@Url.Action("View", new { id = item.ProductID })">
+                                                @Html.Image("/Content" + item.Image, item.Name, new {  height = "125px" })
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="caption">
+                                        <h4 class=" text-center">@item.Name (@item.Price.ToString("c"))</h4>
+                                        <div>
+                                            @{Html.RenderPartial("_AddToCart", item);}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>    
+            }
+        </div>
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+    @section scripts{
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.carousel').carousel({
+                    interval: 2000
+                });
+            });
+        </script>
+    }
+}

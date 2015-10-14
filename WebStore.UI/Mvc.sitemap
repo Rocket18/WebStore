@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+  <mvcSiteMapNode title="Адмінка" controller="Product" action="Index" area="Adminka">
+    <mvcSiteMapNode title="Продукти" controller="Product" action="Index"/>
+    <mvcSiteMapNode title="Редагувати" controller="Product" action="Edit"/>
+    <mvcSiteMapNode title="Переглянути" controller="Product" action="Details"/>
+    <mvcSiteMapNode title="Додати продукт" controller="Product" action="Create"/>
+    <mvcSiteMapNode title="Категорії" controller="Category" action="Index"/>
+    <mvcSiteMapNode title="Користувачі" controller="Users" action="Index"/>
+  </mvcSiteMapNode>
+
+</mvcSiteMap>

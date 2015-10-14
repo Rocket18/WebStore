@@ -1,0 +1,28 @@
+﻿@model WebStore.Models.Entities.Cart
+
+@{
+    Layout = null;
+}
+@if (Model.ComputyTotalValue() > 0)
+{   <div class="cart-full ">
+    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("В корзині " + @Model.Lines.Sum(x => x.Quantity) + " товарa", "Index", "Cart", new { returnUrl = Request.Url.PathAndQuery }, null)
+    }
+    else
+    {
+        @Ajax.ActionLink("В корзині " + @Model.Lines.Sum(x => x.Quantity) + " товарa", "Index", "Cart", new { returnUrl = Request.Url.PathAndQuery }, new AjaxOptions { UpdateTargetId = "loginContainer", OnSuccess = "success" }, null)
+    }
+    <br />
+    на суму @Model.ComputyTotalValue().ToString("c")
+    <div class="cart-order">
+        <a href="#" class="cart-order-link">Оформити замовлення</a>
+    </div>
+    </div>
+}
+else
+{
+    <div class="cart-empty">
+        Корзина пуста
+    </div>
+}

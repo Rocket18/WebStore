@@ -1,0 +1,57 @@
+﻿@model WebStore.UI.Models.CartIndexViewModel
+
+@{
+    ViewBag.Title = "WebStore: Корзина";
+}
+<p><a href="@Model.ReturnUrl"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Повернутися до покупок</a></p>
+@using (Html.Bootstrap().Begin(new Table().Class("CartTableMyFormat")))
+{
+    <tr>
+        <th>№</th>
+        <th>Зображення</th>
+        <th>Назва</th>
+        <th>Кількість</th>
+        <th>Ціна</th>
+        <th>Підсумок</th>
+        <th>Видалити</th>
+    </tr>
+    int i = 1;
+    foreach (var line in Model.Cart.Lines)
+    { 
+    <tr>
+        <td>@i</td>
+        <td>@Html.Image("/Content" + line.Product.Image, line.Product.Name, new { width = "75px", height = "75px" }) </td>
+        <td>@line.Product.Name</td>
+        <td>
+            @using (Html.BeginForm("AddToCart", "Cart"))
+            {
+                <div class="row">
+                    <div class="col-md-9">
+                        <input class="form-control valid"  name="ProductID" type="hidden" value=@line.Product.ProductID />
+                        @Html.TextBox("quantity", line.Quantity, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button>
+                    </div>
+                </div>
+            }
+        </td>
+        <td>@line.Product.Price.ToString("c")</td>
+        <td>@((line.Quantity * line.Product.Price).ToString("c"))</td>
+        <td>
+            @using (Html.BeginForm("RemoveFromCart", "Cart"))
+            {
+                @Html.HiddenFor(x => x.ReturnUrl)
+                @Html.Hidden("ProductId", line.Product.ProductID)
+                @Html.Bootstrap().SubmitButton().Text("<span class=\"glyphicon glyphicon-remove\"></span>")
+            }
+        </td>
+    </tr>
+            i++;
+    }
+    <tr>
+        <td colspan="5" class="text-right">Разом:</td>
+        <td>@Model.Cart.ComputyTotalValue().ToString("c")</td>
+    </tr>
+}
+<input class="btn btn-primary pull-right" type="submit" value="Оформити замовлення">

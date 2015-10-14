@@ -1,0 +1,146 @@
+﻿@model WebStore.Models.Entities.Products
+@{
+    ViewBag.Title = "Продукти|Редагувати";
+}
+@section styles
+{
+    <link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+}
+<p>
+    <p><a href="@Url.Action("Index")"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;На головну</a></p>
+</p>
+<div class="row">
+    <div class="col-md-4">
+        <div class="well">
+            @Html.Image("/Content" + Model.Image, Model.Name, new { id = "foto", @class = "center-block" })
+            @Html.Bootstrap().FileFor(m => m.Image).Id("fu-my-simple-upload")
+            <a href="#" id="hl-start-upload" class="btn btn-primary btn-sm active " role="button">Завантажити</a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            @Html.HiddenFor(model => model.ProductID)
+            @Html.HiddenFor(model => model.Image)
+            <div class="form-group ">
+                @Html.Bootstrap().LabelFor(model => model.Name).Class("control-label col-md-2")
+                <div class="col-md-6">
+                    @Html.Bootstrap().TextBoxFor(model => model.Name).Class("form-control")
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+            </div>
+            <div class="form-group ">
+                @Html.Bootstrap().LabelFor(model => model.Price).Class("control-label col-md-2")
+                <div class="col-md-6">
+                    @Html.Bootstrap().TextBoxFor(model => model.Price).Class("form-control")
+                    @Html.ValidationMessageFor(model => model.Price)
+                </div>
+            </div>
+            <div class="form-group ">
+                @Html.Bootstrap().LabelFor(model => model.Code).Class("control-label col-md-2")
+                <div class="col-md-6">
+                    @Html.Bootstrap().TextBoxFor(model => model.Code).Class("form-control").Readonly(true)
+                    @Html.ValidationMessageFor(model => model.Code)
+                </div>
+            </div>
+            <div class="form-group ">
+                @Html.Bootstrap().LabelFor(model => model.Company).Class("control-label col-md-2")
+                <div class="col-md-6">
+                    @Html.Bootstrap().TextBoxFor(model => model.Company).Class("form-control")
+                    @Html.ValidationMessageFor(model => model.Company)
+                </div>
+            </div>
+            <div class="form-group ">
+                @Html.Bootstrap().LabelFor(model => model.Status).Class("control-label col-md-2")
+                <div class="col-md-6">
+                    @Html.Bootstrap().DropDownListFor(model => model.Avilability, (IEnumerable<SelectListItem>)ViewBag.Status).Class("form-control").OptionLabel("--Select--")
+                    @Html.ValidationMessageFor(model => model.Avilability)
+                </div>
+            </div>
+            <div class="form-group ">
+                @Html.Bootstrap().LabelFor(model => model.Categories).Class("control-label col-md-2")
+                <div class="col-md-6">
+                    @Html.Bootstrap().ListBox("selectedCategories", (IEnumerable<SelectListItem>)ViewBag.Categories).Class("multiselect")
+                    @Html.ValidationMessageFor(model => model.Categories)
+                </div>
+            </div>          
+            @Html.Bootstrap().SubmitButton().Text("Зберегти").Class("btn-primary")
+        }
+    </div>
+</div>
+@section scripts
+{
+    <link rel="stylesheet" href="~/Content/bootstrap-multiselect.css" />
+    @Scripts.Render("~/bundles/jqueryui")
+    <script src="~/Scripts/bootstrap-multiselect.js"></script>
+    <script src="~/Scripts/jquery.fileupload.js"></script>
+    <script src="~/Scripts/jquery.fileupload-ui.js"></script>
+    <script src="~/Scripts/jquery.iframe-transport.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.multiselect').multiselect({
+                enableCaseInsensitiveFiltering: true,
+                buttonText: function (options, select) {
+                    if (options.length == 0) {
+                        return "Обрати:" + ' <b class="caret"></b>';
+                    }
+                    else {
+                        if (options.length > this.numberDisplayed) {
+                            return options.length + ' ' + this.nSelectedText + ' <b class="caret"></b>';
+                        }
+                        else {
+                            var selected = '';
+                            options.each(function () {
+                                var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).html();
+
+                                selected += label + ', ';
+                            });
+                            return selected.substr(0, selected.length - 2) + ' <b class="caret"></b>';
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        // jqXHRData needed for grabbing by data object of fileupload scope
+        var jqXHRData;
+        $(document).ready(function () {
+            //Initialization of fileupload
+            initSimpleFileUpload();
+            //Handler for "Start upload" button 
+            $("#hl-start-upload").on('click', function () {
+                if (jqXHRData) {
+                    jqXHRData.submit();
+                }
+                return false;
+            });
+        });
+        function initSimpleFileUpload() {
+            'use strict';
+            $('#fu-my-simple-upload').fileupload({
+                url: '@Url.Action("UploadFile", "Product", new { area = "Adminka" })',
+                dataType: 'json',
+                add: function (e, data) {
+                    jqXHRData = data
+                },
+                done: function (event, data) {
+                    if (data.result.isUploaded) {
+                        $('#foto').attr('src', '/Content/gallery/' + data.result.message);
+                        $("#Image").attr('value', '/gallery/' + data.result.message);
+                    }
+                    else {
+                        alert(data.result.message);
+                    }
+
+                },
+                fail: function (event, data) {
+                    if (data.files[0].error) {
+                        alert(data.files[0].error);
+                    }
+                }
+            });
+        }
+    </script>
+}

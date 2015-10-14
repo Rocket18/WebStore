@@ -1,0 +1,36 @@
+﻿@{Layout = null;}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Сторінки не знайдено</title>
+  
+  <style>
+      #error {
+      
+       position:relative;
+      width:400px;
+      margin:0 auto;
+      }
+      </style>
+ 
+</head>
+<body>
+
+
+
+<div class="container" id="error">
+<h1>Сторінки не знайдено</h1>
+@Html.Image("/Content/Images/NotFound.jpg","Not Found")
+<p>Неможливо знайти сторінку: @ViewBag.RequestedUrl</p>
+@if (ViewBag.ReferrerUrl != null)
+{
+    <p>Повернутися до <a href="@ViewBag.ReferrerUrl">попередньої сторінки</a>.</p>
+}
+</div>
+
+@* Error page must be longer than 512 bytes for IE and Chrome to show it. 
+   So add padding in case we're short. *@
+@(new string(' ', 512))
+    </body>

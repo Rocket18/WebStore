@@ -1,0 +1,19 @@
+﻿@model IEnumerable<WebStore.Models.Entities.Categories>
+@{
+    ViewBag.Title = "Категорії";
+}
+<div class="col-md-6" id="cats">
+    @{Html.RenderAction("Cats", "Category");}
+</div>
+<div class="col-md-6">
+    <p class="categoryAdd">Додати категорію</p>
+    @{Html.RenderAction("Create", "Category");}
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var sussesDelete = function (data) {
+            window.location.href = window.location.href;
+        }
+    </script>
+}

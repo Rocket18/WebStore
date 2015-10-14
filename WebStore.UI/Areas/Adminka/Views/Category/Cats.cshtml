@@ -1,0 +1,12 @@
+﻿@model List<WebStore.Models.Entities.Categories>
+@using (Html.Bootstrap().Begin(new Table()))
+{     
+    <tr>
+        <th>Назва категорії</th>
+        <th>Видалити</th>
+    </tr>
+    foreach (var cat in Model)
+    {
+        { Html.RenderPartial("_Categories", cat); }
+    }
+}

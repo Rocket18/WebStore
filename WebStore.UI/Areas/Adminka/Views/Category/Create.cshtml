@@ -1,0 +1,14 @@
+﻿@model WebStore.Models.Entities.Categories
+@{Layout = "";}
+<div>
+    @using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @class = "inline-form", role = "form" }))
+    {  
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(model => model.Name).Class("sr-only")
+            @Html.Bootstrap().TextBoxFor(model => model.Name).Class("col-md-6 form-control").Placeholder("Введіть назву")
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <input type="submit" value="Зберегти" class="btn btn-primary  catSave" />   
+    }
+</div>
+

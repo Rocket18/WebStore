@@ -1,0 +1,47 @@
+﻿@model WebStore.Models.Entities.Users
+<div class="modal " id="showLoginForm" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h4 class="modal-title text-center">Вхід в інтернет-магазин</h4>
+            </div>
+            @using (Ajax.BeginForm("Login", "Account", null, new AjaxOptions
+                {
+                    Url = Url.Action("LoginAjax"),
+                    OnSuccess = "sussesLogin",
+                    HttpMethod = "POST"
+                },
+                    new
+                    {
+                        id = "loginForm"
+                    }))
+            {
+                <div class="modal-body ">
+                    <div class="form-group">
+                        @Html.Bootstrap().LabelFor(model => model.Username)
+                        @Html.Bootstrap().TextBoxFor(model => model.Username).Class("form-control")
+                        @Html.ValidationMessageFor(model => model.Username)
+                    </div>
+                    <div class="form-group">
+                        @Html.Bootstrap().LabelFor(model => model.Password)
+                        @Html.Bootstrap().PasswordFor(model => model.Password).Class("form-control")
+                        @Html.ValidationMessageFor(model => model.Password)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember-me" value="1">
+                            Запам'ятати мене
+                        </label>
+                    </div>
+                    <div class="field-validation-error" id="errorLoginForm"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                    <button class="btn  btn-primary" type="submit">Увійти</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
